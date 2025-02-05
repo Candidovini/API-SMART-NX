@@ -1,0 +1,19 @@
+version: '3'
+services:
+  api:
+    build: .
+    volumes:
+      - ./src:/app/src  
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    command: npm run dev  
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: social_media
+    ports:
+      - "5432:5432"

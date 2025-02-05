@@ -2,13 +2,12 @@
   "name": "api-pg",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "build": "npx -y tsc",
-    "start": "src/api/server.js",
+    "start": "node src/api/server.js",
     "dev": "nodemon --watch \"./src/**\" ./src/api/server.js",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "lint": "eslint ./src --ext .ts",
+    "lint": "eslint ./src --ext .js",
     "eslint:fix": "eslint --fix"
   },
   "keywords": [],
