@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { createUserController } from '../controllers/UsersController.js';
 const router = Router();
 
 router.get('/healthz', (req, res) => {
@@ -8,5 +8,9 @@ router.get('/healthz', (req, res) => {
     timestamp: new Date().getTime()
   });
 });
+
+
+
+router.post('/create-user', createUserController);
 
 export default router;
