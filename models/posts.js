@@ -23,12 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     createdAt: {
-      type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
     updatedAt: {
-      type: Sequelize.DATE,
-      defaultValue: Sequelize.NOW,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
   });
   Posts.associate = (models) => {

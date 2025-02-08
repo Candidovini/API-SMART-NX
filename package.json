@@ -1,8 +1,8 @@
 {
   "name": "api-pg",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "commonjs",
+  "main": "src/api/server.js",
+  "engineStrict": true,
   "scripts": {
     "start": "node src/api/server.js",
     "dev": "nodemon --watch \"./src/**\" ./src/api/server.js",
