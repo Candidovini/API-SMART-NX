@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Comments', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("Comments", {
       comment_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,22 +13,22 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Posts',
-          key: 'post_id', 
-        }
+          model: "Posts",
+          key: "post_id",
+        },
       },
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
-          key: 'id', 
-        }
+          model: "Users",
+          key: "id",
+        },
       },
       comment_content: {
         type: Sequelize.STRING,
-        allowNull: false, 
-        unique: true, 
+        allowNull: false,
+        unique: true,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -47,13 +47,13 @@ module.exports = {
      */
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface) {
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable('Comments');
-  }
+    await queryInterface.dropTable("Comments");
+  },
 };
