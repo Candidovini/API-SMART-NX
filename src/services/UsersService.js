@@ -1,4 +1,5 @@
 const { Users } = require("../../models");
+const { hashPassword } = require("../helpers/Password");
 
 const getAllUsers = async () => {
   const getAll = await Users.findAll({
@@ -21,8 +22,9 @@ const getByUsername = async (username) => {
 
 const createUser = async ({ username, name, password }) => {
   const verifyUserName = await getByUsername(username);
-  if(verifyUserName) throw new Error(`User ${username} already exists`);
-  const user = await Users.create({ username, name, password });
+  const hashPass = await hashPassword(password);
+  if (verifyUserName) throw new Error(`User ${username} already exists`);
+  const user = await Users.create({ username, name, password: hashPass });
   return user;
 };
 
