@@ -20,10 +20,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
         allowNull: true, 
-        unique: true, 
+        unique: false, 
       },
       content: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(1000),
         allowNull: false,
       },
       createdAt: {

@@ -12,7 +12,7 @@ const userLogin = async (data) => {
   if (!hashPass) throw new Error("Senha Inválida.");
   const token = jwt.sign(
     {
-      userId: findUser.user_id,
+      userId: findUser.id,
     },
     "decoded",
     {
