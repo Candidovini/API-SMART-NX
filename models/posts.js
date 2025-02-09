@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: true, 
-      unique: true, 
+      unique: false, 
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1000),
       allowNull: false,
     },
     createdAt: {
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Posts.associate = (models) => {
     Posts.hasMany(models.Posts, {
-      foreignKey: 'posts_id',
+      foreignKey: 'post_id',
       as: 'Posts',
     });
   };
