@@ -1,16 +1,19 @@
-import { Router } from "express";
-import { createUserController } from '../controllers/UsersController.js';
+const { Router } = require("express");
+const { createUserController } = require("../controllers/UsersController.js");
+const { loginController } = require("../controllers/LoginController.js");
+const { verifyToken } = require("../middlewares/authMiddleware.js");
+
 const router = Router();
 
-router.get('/healthz', (req, res) => {
+router.get("/healthz", (req, res) => {
   res.status(200).send({
-    message:"Service is running",
-    timestamp: new Date().getTime()
+    message: "Service is running",
+    timestamp: new Date().getTime(),
   });
 });
 
+router.post("/session", loginController);
 
-
-router.post('/create-user', createUserController);
+router.post("/create-user", verifyToken, createUserController);
 
 export default router;
