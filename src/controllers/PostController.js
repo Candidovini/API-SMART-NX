@@ -1,4 +1,4 @@
-const { create } = require("../services/PostService");
+const { create, findOne } = require("../services/PostService");
 
 const createPost = async (req, res) => {
   try {
@@ -17,4 +17,16 @@ const createPost = async (req, res) => {
   }
 };
 
-module.exports = { createPost };
+const findPost = async (req, res) => {
+  try {
+    const { post_id } = req.params;
+    console.log(post_id);
+    const find = await findOne(post_id);
+    return res.status(200).send(find);
+  } catch (error) {
+    console.log(error);
+    return res.status(404).send({ message: "Post not found" });
+  }
+};
+
+module.exports = { createPost, findPost };
