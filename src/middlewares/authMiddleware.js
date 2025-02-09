@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 function verifyToken(req, res, next) {
-  const token = req.header("Authorization");
+  const token = req.header("Authorization")?.replace("Bearer ", "");
   if (!token) return res.status(401).json({ error: "Access denied" });
   try {
     const decoded = jwt.verify(token, "decoded");
+    console.log(decoded);
     req.userId = decoded.userId;
     next();
   } catch (error) {
