@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "src/api/server.js",
   "engineStrict": true,
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "scripts": {
-    "start": "node src/api/server.js",
-    "dev": "nodemon --watch \"./src/**\" ./src/api/server.js",
+    "start": "babel-node src/api/server.js",
+    "dev": "nodemon --exec babel-node src/api/server.js",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "lint": "eslint ./src --ext .js",
     "eslint:fix": "eslint --fix"
@@ -16,13 +19,19 @@
   "description": "",
   "dependencies": {
     "api-pg": "file:",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.8",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.8",
     "nodemon": "^3.1.9"
   }
 }

@@ -1,11 +1,6 @@
-import CustomError from './CustomError';
+import CustomError from "./CustomError";
 
-const ErroHandler = (
-  err,
-  _req,
-  res,
-  _next 
-) => {
+const ErroHandler = (err, _req, res, _next) => {
   if (err instanceof CustomError) {
     res.status(err.code).send({ message: err.message });
   } else if (err instanceof Error) {
