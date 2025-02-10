@@ -1,6 +1,5 @@
-import app from "./app.js";
-const port = 3001;
+require("dotenv").config();
+const app = require("./app");
+const apiPort = process.env.API_PORT || 3001;
 
-app.listen(port);
-
-console.log(`API IS RUNNING IN PORT ${port}`);
+app.listen(apiPort, () => console.log("API in the port", apiPort));

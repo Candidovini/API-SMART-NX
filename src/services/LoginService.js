@@ -1,6 +1,8 @@
+require("dotenv").config();
 const { Users } = require("../../models");
 const { CompareHashPassword } = require("../helpers/Password");
 const jwt = require("jsonwebtoken");
+const secretKey = process.env.SECRET_KEY;
 
 const userLogin = async (data) => {
   const { username, password } = data;
@@ -14,7 +16,7 @@ const userLogin = async (data) => {
     {
       userId: findUser.id,
     },
-    "decoded",
+    secretKey,
     {
       expiresIn: "1h",
     }

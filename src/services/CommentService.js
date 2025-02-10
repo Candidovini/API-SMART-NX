@@ -6,6 +6,10 @@ const create = async (data) => {
     user_id: data.userId,
     comment_content: data.content,
   };
+  const findPost = await Posts.findOne({
+    where: { post_id: createObj.post_id },
+  });
+  if (!findPost) throw new Error("Post not found");
   const createComment = await Comments.create(createObj);
   return createComment;
 };
@@ -37,7 +41,7 @@ const destroy = async (data) => {
 };
 
 const findOne = async (commentId) => {
-  const findComments = await Comments.findOne({
+  const findComment = await Comments.findOne({
     where: { comment_id: commentId },
     include: [
       {
@@ -48,7 +52,8 @@ const findOne = async (commentId) => {
       { model: Users, as: "Users", attributes: { exclude: ["password"] } },
     ],
   });
-  return findComments;
+  if (!findComment) throw new Error(`Comment ${commentId} not found`);
+  return findComment;
 };
 
 const findAll = async (data) => {
@@ -65,31 +70,33 @@ const findAll = async (data) => {
     order: [["createdAt", "ASC"]],
   });
 
-  const postsWithLinks = dadosPaginados.map((post) => {
-    const baseUrl = new URL(`${protocol}://${host}/comments/${post.post_id}`);
+  const commentsWithLinks = dadosPaginados.map((comment) => {
+    const baseUrl = new URL(
+      `${protocol}://${host}/comment/${comment.comment_id}`
+    );
     return {
-      ...post.toJSON(),
+      ...comment.toJSON(),
       link: baseUrl,
     };
   });
 
-  const totalPosts = await Comments.count();
-  const totalPages = Math.ceil(totalPosts / pageSize);
+  const totalComments = await Comments.count();
+  const totalPages = Math.ceil(totalComments / pageSize);
 
   const nextPage = currentPage < totalPages ? currentPage + 1 : "";
   let nextPageLink = "";
   if (nextPage) {
-    const baseUrl = new URL(`${protocol}://${host}/comments`);
+    const baseUrl = new URL(`${protocol}://${host}/comment`);
     baseUrl.searchParams.set("limit", pageSize);
     baseUrl.searchParams.set("page", nextPage);
     nextPageLink = baseUrl.toString();
   }
 
   return {
-    postsWithLinks,
-    count: postsWithLinks.length,
+    commentsWithLinks,
+    count: commentsWithLinks.length,
     limit,
-    total: totalPosts,
+    total: totalComments,
     currentPage,
     totalPages: totalPages,
     nextPage: nextPage,
