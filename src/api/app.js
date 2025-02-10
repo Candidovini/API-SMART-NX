@@ -1,10 +1,14 @@
-import router from "../routes/Routes.js";
-import express from "express";
-import cors from "cors";
+const router = require("../routes/Routes.js");
+const express = require("express");
+const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("../../swagger-output.json");
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
 app.use(router);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-export default app;
+module.exports = app;

@@ -11,7 +11,8 @@
     "dev": "nodemon --exec babel-node src/api/server.js",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "lint": "eslint ./src --ext .js",
-    "eslint:fix": "eslint --fix"
+    "eslint:fix": "eslint --fix",
+    "swagger": "babel-node swagger.js"
   },
   "keywords": [],
   "author": "",
@@ -19,13 +20,16 @@
   "description": "",
   "dependencies": {
     "api-pg": "file:",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
     "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
@@ -36,6 +40,7 @@
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "globals": "^15.14.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "swagger-autogen": "^2.23.7"
   }
 }
