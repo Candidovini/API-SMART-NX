@@ -1,8 +1,45 @@
 const { Posts, Users, Comments } = require("../../models");
 
 const create = async (data) => {
-  const createPost = await Posts.create(data);
+  const createObj = {
+    title: data.title,
+    content: data.content,
+    user_id: data.userId,
+  };
+  const createPost = await Posts.create(createObj);
   return createPost;
+};
+
+const update = async (data) => {
+  const updateObj = {
+    title: data.title,
+    content: data.content,
+  };
+  const findPost = await Posts.findOne({
+    where: { post_id: data.postId },
+  });
+
+  if (!findPost) throw new Error(`Post ${data.postId} not found`);
+
+  const updateComment = await Comments.update(updateObj, {
+    where: { post_id: data.postId },
+  });
+  return updateComment;
+};
+
+const destroy = async (data) => {
+  const findPost = await Posts.findOne({
+    where: { post_id: data.postId },
+  });
+  if (!findPost) throw new Error(`Post ${data.commentId} not found`);
+  if (findPost.dataValues.user_id !== data.userId)
+    throw new Error("It is not possible to delete a comment");
+  await Comments.destroy({
+    where: { post_id: data.postId },
+  });
+  await Posts.destroy({
+    where: { post_id: data.postId },
+  });
 };
 
 const findOne = async (postId) => {
@@ -12,7 +49,6 @@ const findOne = async (postId) => {
       {
         model: Comments,
         as: "Comments",
-        attributes: { exclude: ["comment_id"] },
       },
       { model: Users, as: "Users", attributes: { exclude: ["password"] } },
     ],
@@ -66,4 +102,4 @@ const getAll = async (data) => {
   };
 };
 
-module.exports = { create, findOne, getAll };
+module.exports = { create, update, destroy, findOne, getAll };

@@ -6,6 +6,8 @@ const {
   createPost,
   findPost,
   getPost,
+  updatePost,
+  destroyPost,
 } = require("../controllers/PostController.js");
 const {
   createComment,
@@ -26,9 +28,13 @@ router.get("/healthz", (req, res) => {
 
 router.post("/session", loginController);
 
-router.post("/user", verifyToken, createUserController);
+router.post("/user", createUserController);
 
 router.post("/posts", verifyToken, createPost);
+
+router.put("/posts/:post_id", verifyToken, updatePost);
+
+router.delete("/posts/:post_id", verifyToken, destroyPost);
 
 router.get("/posts/:post_id", verifyToken, findPost);
 
