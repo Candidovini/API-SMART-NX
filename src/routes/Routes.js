@@ -1,21 +1,8 @@
 const { Router } = require("express");
-const { createUserController } = require("../controllers/UsersController.js");
-const { loginController } = require("../controllers/LoginController.js");
-const { verifyToken } = require("../middlewares/authMiddleware.js");
-const {
-  createPost,
-  findPost,
-  getPost,
-  updatePost,
-  destroyPost,
-} = require("../controllers/PostController.js");
-const {
-  createComment,
-  getAllComments,
-  getComment,
-  updateComment,
-  destroyComment,
-} = require("../controllers/CommentController.js");
+const loginRouter = require("./LoginRouter");
+const userRouter = require("./UserRouter");
+const commentRouter = require("./CommentRouter");
+const postRouter = require("./PostRouter");
 
 const router = Router();
 
@@ -26,28 +13,9 @@ router.get("/healthz", (req, res) => {
   });
 });
 
-router.post("/session", loginController);
+router.use("/user", userRouter);
+router.use("/login", loginRouter);
+router.use("/post", postRouter);
+router.use("/comment", commentRouter);
 
-router.post("/user", createUserController);
-
-router.post("/posts", verifyToken, createPost);
-
-router.put("/posts/:post_id", verifyToken, updatePost);
-
-router.delete("/posts/:post_id", verifyToken, destroyPost);
-
-router.get("/posts/:post_id", verifyToken, findPost);
-
-router.get("/posts", verifyToken, getPost);
-
-router.post("/comments", verifyToken, createComment);
-
-router.get("/comments", verifyToken, getAllComments);
-
-router.get("/comments/:comment_id", verifyToken, getComment);
-
-router.put("/comments/:comment_id", verifyToken, updateComment);
-
-router.delete("/comments/:comment_id", verifyToken, destroyComment);
-
-export default router;
+module.exports = router;
