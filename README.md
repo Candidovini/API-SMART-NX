@@ -70,6 +70,8 @@ A API tem a documentação Swagger configurada para que você possa testar os en
 
 http://localhost:3001/swagger
 
+Além disso há uma collection do POSTMAN para facilitar o teste dos endpoints.
+
 ### 6. Roteamento e Endpoints
 
 A API oferece diversos endpoints para gerenciar usuários, posts, comentários e mais. Confira a documentação Swagger para detalhes sobre cada endpoint.
