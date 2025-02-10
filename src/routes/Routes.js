@@ -7,6 +7,13 @@ const {
   findPost,
   getPost,
 } = require("../controllers/PostController.js");
+const {
+  createComment,
+  getAllComments,
+  getComment,
+  updateComment,
+  destroyComment,
+} = require("../controllers/CommentController.js");
 
 const router = Router();
 
@@ -19,12 +26,22 @@ router.get("/healthz", (req, res) => {
 
 router.post("/session", loginController);
 
-router.post("/create-user", verifyToken, createUserController);
+router.post("/user", verifyToken, createUserController);
 
-router.post("/create-post", verifyToken, createPost);
+router.post("/posts", verifyToken, createPost);
 
-router.get("/post/:post_id", verifyToken, findPost);
+router.get("/posts/:post_id", verifyToken, findPost);
 
 router.get("/posts", verifyToken, getPost);
+
+router.post("/comments", verifyToken, createComment);
+
+router.get("/comments", verifyToken, getAllComments);
+
+router.get("/comments/:comment_id", verifyToken, getComment);
+
+router.put("/comments/:comment_id", verifyToken, updateComment);
+
+router.delete("/comments/:comment_id", verifyToken, destroyComment);
 
 export default router;
