@@ -5,6 +5,7 @@ const {
   findAll,
   findOne,
 } = require("../services/CommentService");
+const { FormatedResponse } = require("../helpers/FormattedResponse");
 
 const createComment = async (req, res) => {
   try {
@@ -15,10 +16,12 @@ const createComment = async (req, res) => {
       userId: req.userId,
       content: data.comment_content,
     };
-    const response = await create(formattedData);
-    return res.status(201).send(response);
+    await create(formattedData);
+    return res
+      .status(201)
+      .send(FormatedResponse.true("Comment created successfully"));
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
@@ -31,10 +34,12 @@ const updateComment = async (req, res) => {
       userId: req.userId,
       content: data.comment_content,
     };
-    const response = await update(formattedData);
-    return res.status(200).send(response);
+    await update(formattedData);
+    return res
+      .status(200)
+      .send(FormatedResponse.true("Comment updated successfully"));
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
@@ -42,28 +47,32 @@ const destroyComment = async (req, res) => {
   try {
     const { comment_id } = req.params;
     await destroy({ commentId: comment_id, userId: req.userId });
-    return res.status(204).send();
+    return res.status(204).send(FormatedResponse.true());
   } catch (error) {
-    return res.status(404).send({ message: "Comments not found" });
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
 const getComment = async (req, res) => {
   try {
     const { comment_id } = req.params;
-    const posts = await findOne(comment_id);
-    return res.status(200).send(posts);
+    const comment = await findOne(comment_id);
+    return res
+      .status(200)
+      .send(FormatedResponse.true("Comment found successfully", comment));
   } catch (error) {
-    return res.status(404).send({ message: "Comments not found" });
+    return res.status(404).send(FormatedResponse.false(error.message));
   }
 };
 
 const getAllComments = async (req, res) => {
   try {
-    const posts = await findAll(req);
-    return res.status(200).send(posts);
+    const comments = await findAll(req);
+    return res
+      .status(200)
+      .send(FormatedResponse.true("Comments found successfully", comments));
   } catch (error) {
-    return res.status(404).send({ message: "Comments not found" });
+    return res.status(404).send(FormatedResponse.false(error.message));
   }
 };
 
