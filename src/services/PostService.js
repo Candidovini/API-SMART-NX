@@ -31,9 +31,9 @@ const destroy = async (data) => {
   const findPost = await Posts.findOne({
     where: { post_id: data.postId },
   });
-  if (!findPost) throw new Error(`Post ${data.commentId} not found`);
+  if (!findPost) throw new Error(`Post ${data.postId} not found`);
   if (findPost.dataValues.user_id !== data.userId)
-    throw new Error("It is not possible to delete a comment");
+    throw new Error("It is not possible to delete a Post");
   await Comments.destroy({
     where: { post_id: data.postId },
   });
@@ -53,6 +53,7 @@ const findOne = async (postId) => {
       { model: Users, as: "Users", attributes: { exclude: ["password"] } },
     ],
   });
+  if (!findPost) throw new Error(`Post ${postId} not found`);
   return findPost;
 };
 
@@ -84,12 +85,11 @@ const getAll = async (data) => {
   const nextPage = currentPage < totalPages ? currentPage + 1 : "";
   let nextPageLink = "";
   if (nextPage) {
-    const baseUrl = new URL(`${protocol}://${host}/posts`);
+    const baseUrl = new URL(`${protocol}://${host}/post`);
     baseUrl.searchParams.set("limit", pageSize);
     baseUrl.searchParams.set("page", nextPage);
     nextPageLink = baseUrl.toString();
   }
-
   return {
     postsWithLinks,
     count: postsWithLinks.length,
