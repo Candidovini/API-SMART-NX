@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     comment_content: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -37,16 +37,14 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Comments.associate = (models) => {
-    // Associação com Users
     Comments.belongsTo(models.Users, {
       foreignKey: "user_id",
       as: "Users",
     });
 
-    // Associação com Posts
     Comments.belongsTo(models.Posts, {
       foreignKey: "post_id",
-      as: "Posts", // Alias usado no modelo Posts
+      as: "Posts",
     });
   };
   return Comments;

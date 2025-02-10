@@ -28,7 +28,7 @@ module.exports = {
       comment_content: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+        unique: false,
       },
       createdAt: {
         type: Sequelize.DATE,
