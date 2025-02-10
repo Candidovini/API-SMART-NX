@@ -5,6 +5,7 @@ const {
   findOne,
   getAll,
 } = require("../services/PostService");
+const { FormatedResponse } = require("../helpers/FormattedResponse");
 
 const createPost = async (req, res) => {
   try {
@@ -13,10 +14,10 @@ const createPost = async (req, res) => {
       ...data,
       userId: req.userId,
     };
-    const response = await create(dataObj);
-    return res.status(201).send(response);
+    await create(dataObj);
+    return res.status(201).send(FormatedResponse.true('Post created successfully'));
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
@@ -28,10 +29,10 @@ const updatePost = async (req, res) => {
       data,
       postId: post_id,
     };
-    const response = await update(formattedData);
-    return res.status(200).send(response);
+    await update(formattedData);
+    return res.status(200).send(FormatedResponse.true('Post updated successfully'));
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(404).send(FormatedResponse.false(error.message));
   }
 };
 
@@ -39,9 +40,9 @@ const destroyPost = async (req, res) => {
   try {
     const { post_id } = req.params;
     await destroy({ postId: post_id, userId: req.userId });
-    return res.status(204).send();
+    return res.status(204).send(FormatedResponse.true());
   } catch (error) {
-    return res.status(404).send({ message: "Post not found" });
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
@@ -49,18 +50,18 @@ const findPost = async (req, res) => {
   try {
     const { post_id } = req.params;
     const find = await findOne(post_id);
-    return res.status(200).send(find);
+    return res.status(200).send(FormatedResponse.true('Post found successfully', find));
   } catch (error) {
-    return res.status(404).send({ message: "Post not found" });
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
 const getPost = async (req, res) => {
   try {
     const posts = await getAll(req);
-    return res.status(200).send(posts);
+    return res.status(200).send(FormatedResponse.true('Post found successfully', posts));
   } catch (error) {
-    return res.status(404).send({ message: "Post not found" });
+    return res.status(400).send(FormatedResponse.false(error.message));
   }
 };
 
