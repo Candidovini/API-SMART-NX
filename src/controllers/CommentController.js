@@ -42,7 +42,7 @@ const destroyComment = async (req, res) => {
   try {
     const { comment_id } = req.params;
     await destroy({ commentId: comment_id, userId: req.userId });
-    return res.status(204);
+    return res.status(204).send();
   } catch (error) {
     return res.status(404).send({ message: "Comments not found" });
   }
