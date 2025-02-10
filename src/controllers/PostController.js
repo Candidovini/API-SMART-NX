@@ -3,7 +3,6 @@ const { create, findOne, getAll } = require("../services/PostService");
 const createPost = async (req, res) => {
   try {
     const data = req.body;
-
     const formattedData = {
       title: data.title,
       content: data.content,
